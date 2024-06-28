@@ -1,0 +1,34 @@
+<h1><%= @student.first_name %> <%= @student.last_name %></h1>
+<h2>Sections</h2>
+<% @student_sections.each do |day, sections| %>
+  <h4 style="padding-left: 30px"><%= day %></h4>
+  <% sections.each do |collection| %>
+    <% collection.each do |section| %>
+      <div>
+        <%= section.teacher_subject.subject.name %> - <%= section.start_time.strftime("%I:%M %p") %> to <%= section.end_time.strftime("%I:%M %p") %>
+        <%= link_to 'Remove', remove_section_student_path(@student, section), method: :delete %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+<h3>Add Section</h3>
+<%= form_with url: add_section_student_path(@student), method: :post, local: true do |f| %>
+  <% if @student.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@student.errors.count, "error") %> prohibited this section from being saved:</h2>
+      <ul>
+        <% @student.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.collection_select :section_id, Section.joins(teacher_subject: :subject).select('id', 'subjects.name'), :id, :name, prompt: true %>
+  <%= f.submit 'Add Section' %>
+<% end %>

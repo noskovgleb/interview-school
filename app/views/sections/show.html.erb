@@ -1,0 +1,32 @@
+<p>
+  <strong>Teacher:</strong>
+  <%= @section.teacher_subject.teacher.first_name %> <%= @section.teacher_subject.teacher.last_name %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @section.teacher_subject.subject.name %>
+</p>
+
+<p>
+  <strong>Classroom:</strong>
+  <%= @section.classroom.name %>
+</p>
+
+<p>
+  <strong>Start Time:</strong>
+  <%= @section.start_time.strftime("%I:%M %p") %>
+</p>
+
+<p>
+  <strong>End Time:</strong>
+  <%= @section.end_time.strftime("%I:%M %p") %>
+</p>
+
+<p>
+  <strong>Days:</strong>
+  <%= @section.days %>
+</p>
+
+<%= link_to 'Edit', edit_section_path(@section) %> |
+<%= link_to 'Back', sections_path %>
